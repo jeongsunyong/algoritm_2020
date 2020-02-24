@@ -1,0 +1,57 @@
+import sys
+sys.setrecursionlimit(100000) 
+mnk=input().split(" ")
+m=int(mnk[0]) #눈금의간격M
+n=int(mnk[1]) #눈금의간격N
+k=int(mnk[2]) #k개의 직사각형
+cnt=0
+
+
+def dfs(i,j,l_v):
+    global cnt
+    global n
+    global m
+    cnt+=1
+    l_v[j][i]=-1
+    if j+1<m:
+        if l_v[j+1][i]==0:
+            dfs(i,j+1,l_v)
+    if i+1<n:
+        if l_v[j][i+1]==0:
+            dfs(i+1,j,l_v)
+    if j-1>-1:
+        if l_v[j-1][i]==0:
+            dfs(i,j-1,l_v)
+    if i-1>-1:
+        if l_v[j][i-1]==0:
+            dfs(i-1,j,l_v)
+            
+        
+l=[]
+for i in range(0,k):
+    l.append(list(input().split(" ")))
+l_v=[]
+for i in range(0,m):
+    l_tmp=[]
+    for j in range(0,n):
+        l_tmp.append(0)
+    l_v.append(l_tmp)
+for rec in l:
+    for i in range(int(rec[0]),int(rec[2])):
+        for j in range(int(rec[1]),int(rec[3])):
+            l_v[j][(i)]=1
+
+cnt_list=[]
+rec_cnt=0
+for i in range(0,n):
+    for j in range(0,m):
+        if l_v[j][i] == 0:
+            dfs(i,j,l_v)
+            cnt_list.append(cnt)
+            cnt=0
+            rec_cnt+=1
+
+cnt_list.sort()
+print(rec_cnt)
+for c in cnt_list:
+        print("%d" % c, end=" ")
