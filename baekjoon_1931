@@ -1,0 +1,17 @@
+import sys
+#1개의 회의실
+n=int(input()) # N개의 회의.
+l=[]
+for i in range(0,n):
+    a,b=map(int,sys.stdin.readline().strip().split(" "))
+    l.append([a,b])
+l.sort()
+l.sort(key=lambda x:x[1])  
+
+table=[-1]
+for a in l:
+    if a[0] >= table[-1]:
+        table.append(a[1])
+
+table.remove(-1)
+print(len(table))
